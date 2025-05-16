@@ -86,14 +86,6 @@
 	};
 </script>
 
-<!-- <svelte:head>
-	<title>Pricing | NoteNow</title>
-	<meta
-		name="description"
-		content="Simple and transparent pricing plans for NoteNow. Choose the plan that fits your note-taking needs."
-	/>
-</svelte:head> -->
-
 <div class="container mx-auto px-4 py-8">
 	<section class="mb-16 text-center">
 		<h1 class="mb-3 text-4xl font-bold md:text-5xl">{pricingData.title}</h1>

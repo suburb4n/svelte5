@@ -68,14 +68,6 @@
 	};
 </script>
 
-<!-- <svelte:head>
-	<title>FAQ | NoteNow</title>
-	<meta
-		name="description"
-		content="Frequently asked questions about NoteNow, the effortless note-taking app for everyone."
-	/>
-</svelte:head> -->
-
 <div class="container mx-auto px-4 py-8">
 	<section class="mb-16 text-center">
 		<h1 class="mb-3 text-4xl font-bold md:text-5xl">{faqData.title}</h1>
