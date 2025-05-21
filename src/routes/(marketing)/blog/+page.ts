@@ -1,9 +1,8 @@
 import type { PageLoad } from './$types';
 
-export const load = (async () => {
-	console.log('🌍 Blog Route Universal Load');
+export const load = (async ({ data }) => {
 	return {
-		title: 'The Blog',
-		count: 10
+		...data,
+		x: 1
 	};
 }) satisfies PageLoad;
