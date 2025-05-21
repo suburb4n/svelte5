@@ -8,6 +8,7 @@ export const load = (async ({ parent }) => {
 	console.log('🌍 Blog Route Server Load');
 	return {
 		title: 'The Blog',
+		description: 'Our blog posts',
 		count: 10
 	};
 }) satisfies PageServerLoad;
