@@ -24,8 +24,12 @@ export const load = async ({ params, fetch }) => {
 		console.log('Fetch comments ended');
 		return commentsArray;
 	}
+	const commentsPromise = fetchComments();
+	const post = await fetchPost();
 	return {
-		comments: fetchComments(),
-		post: await fetchPost()
+		comments: commentsPromise,
+		post,
+		title: post.title,
+		description: post.body.slice(0, 200)
 	};
 };
