@@ -13,6 +13,9 @@ export const handle1: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event, {
 		transformPageChunk: ({ html }) => {
 			return html.replace('%sveltekit.lang%', event.cookies.get('lang') || 'en');
+		},
+		filterSerializedResponseHeaders: (name) => {
+			return name === 'content-type';
 		}
 	});
 	return response;
