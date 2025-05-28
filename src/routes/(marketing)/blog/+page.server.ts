@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import type { PostsResponse } from '$lib/types';
 import { POSTS_PER_PAGE } from '$lib/constants';
 
-export const load = (async ({ fetch, url }) => {
+export const load = (async ({ fetch, url, cookies }) => {
 	const page = +(url.searchParams.get('page') || 1);
 	const postsRes = await fetch(
 		`https://dummyjson.com/posts?limit=${POSTS_PER_PAGE}&skip=${(page - 1) * POSTS_PER_PAGE}`
