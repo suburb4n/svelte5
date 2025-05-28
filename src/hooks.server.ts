@@ -10,7 +10,11 @@ export const handle1: Handle = async ({ event, resolve }) => {
 
 	event.locals.user = token ? { name: 'John', id: 1 } : null;
 
-	const response = await resolve(event);
+	const response = await resolve(event, {
+		transformPageChunk: ({ html }) => {
+			return html.replace('%sveltekit.lang%', event.cookies.get('lang') || 'en');
+		}
+	});
 	return response;
 };
 
