@@ -1,5 +1,6 @@
 // import type { PageLoad } from './$types';
 
+import Rect from '$lib/rect.js';
 import type { Post, PostComment } from '$lib/types.js';
 import { error } from '@sveltejs/kit';
 
@@ -26,6 +27,7 @@ export const load = async ({ params, fetch }) => {
 		comments: commentsPromise,
 		post,
 		title: post.title,
-		description: post.body.slice(0, 200)
+		description: post.body.slice(0, 200),
+		rect: new Rect(0, 0, 100, 100)
 	};
 };

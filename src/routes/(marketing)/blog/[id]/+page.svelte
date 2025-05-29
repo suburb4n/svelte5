@@ -2,6 +2,7 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
+	console.log(data.rect);
 </script>
 
 <div class="container mx-auto px-4 py-8">
