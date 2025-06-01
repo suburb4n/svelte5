@@ -2,7 +2,6 @@
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	console.log(data.rect);
 </script>
 
 <div class="card bg-base-200 rounded-md p-10">
