@@ -5,6 +5,7 @@ import type { Post, PostComment } from '$lib/types.js';
 import { error } from '@sveltejs/kit';
 
 export const load = async ({ params, fetch }) => {
+	console.log('blog/[id] page load');
 	async function fetchPost() {
 		const postRes = await fetch(`https://dummyjson.com/posts/${params.id}`);
 		if (postRes.status !== 200) {
