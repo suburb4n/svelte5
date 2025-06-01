@@ -1,6 +1,7 @@
 import type { PageLoad } from './$types';
 import { env } from '$env/dynamic/public';
 import { PUBLIC_TEST, PUBLIC_FROM_DOT_ENV } from '$env/static/public';
+import '$lib/server/db';
 
 export const load = (async ({ data }) => {
 	console.log('env from $env/dynamic/public', env);
