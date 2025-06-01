@@ -4,8 +4,8 @@ import Rect from '$lib/rect.js';
 import type { Post, PostComment } from '$lib/types.js';
 import { error } from '@sveltejs/kit';
 
-export const load = async ({ params, fetch, parent }) => {
-	await parent();
+export const load = async ({ params, fetch }) => {
+	// await parent();
 	console.log('blog/[id] page load');
 	async function fetchPost() {
 		const postRes = await fetch(`https://dummyjson.com/posts/${params.id}`);

@@ -1,8 +1,22 @@
 <script lang="ts">
+	import { invalidate, invalidateAll } from '$app/navigation';
+	import { page } from '$app/state';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 </script>
+
+<button
+	onclick={() => {
+		// invalidateAll();
+		// invalidate(`https://dummyjson.com/posts/${page.params.id}`);
+		invalidate((url) => {
+			return url.hostname === 'dummyjson.com' && url.pathname.startsWith('/posts');
+		});
+		invalidate('blog:single_page_layout');
+	}}
+	class="btn mb-6 rounded-md bg-orange-600 text-white">Reload</button
+>
 
 <div class="card bg-base-200 rounded-md p-10">
 	<div class="mb-16">
