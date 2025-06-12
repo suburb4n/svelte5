@@ -65,7 +65,6 @@ export const load = (async ({ locals }) => {
 			recentPagesPromise,
 			recentNotesPromise
 		]);
-		console.log(workspaces, recentPages, recentNotes);
 		return {
 			user: locals.session.user,
 			workspaces,
