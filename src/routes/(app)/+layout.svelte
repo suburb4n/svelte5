@@ -6,6 +6,10 @@
 	import { page } from '$app/state';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
+
+	let selectedWorkspaceID = $derived(
+		page.route.id === '/(app)/(workspace)/w/[wid]' && page.params.wid
+	);
 </script>
 
 <div class="flex h-svh flex-col">
@@ -47,6 +51,9 @@
 											</div>
 										</div>
 										<p>{workspace.name}</p>
+										{#if selectedWorkspaceID === workspace.id}
+											<div class="badge badge-sm rounded-lg">Current</div>
+										{/if}
 									</a>
 								</li>
 							{:else}

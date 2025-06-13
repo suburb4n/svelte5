@@ -5,9 +5,10 @@ import { db } from '$lib/server/db';
 import { pageAccess, pages, workspaces } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
 
-export const load = (async ({ locals, route, params }) => {
+export const load = (async ({ locals, route, params, untrack }) => {
+	console.log('(workspace) layout');
 	// TODO: Auth
-	const isPage = route.id.startsWith('/(app)/(workspace)/p/[pid]');
+	const isPage = untrack(() => route.id).startsWith('/(app)/(workspace)/p/[pid]');
 	const workspaceId =
 		isPage && params.pid ? await getWorkspaceIDFromPageID(params.pid) : params.wid;
 
