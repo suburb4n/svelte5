@@ -34,7 +34,13 @@
 						>
 							{#each data.workspaces || [] as workspace}
 								<li>
-									<a href="/w/{workspace.id}" class="rounded-md">
+									<a
+										onclick={(e) => {
+											(e.currentTarget.closest('[popover]') as HTMLElement)?.hidePopover();
+										}}
+										href="/w/{workspace.id}"
+										class="rounded-md"
+									>
 										<div class="avatar avatar-placeholder">
 											<div class="w-10 rounded-md bg-blue-700">
 												<span class="text-lg text-white">{workspace.name[0].toUpperCase()}</span>
@@ -71,7 +77,13 @@
 						>
 							{#each data.recentPages || [] as page}
 								<li>
-									<a class="items-start rounded-md" href="/p/{page.id}">
+									<a
+										onclick={(e) => {
+											(e.currentTarget.closest('[popover]') as HTMLElement)?.hidePopover();
+										}}
+										class="items-start rounded-md"
+										href="/p/{page.id}"
+									>
 										<StickyNote size="22" class="me-1 mt-1" />
 										<div>
 											<span class="block text-[16px]">{page.title}</span>
