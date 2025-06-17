@@ -13,6 +13,7 @@ export const load = (async ({ locals }) => {
 
 export const actions = {
 	createWorkspace: async ({ request, locals }) => {
+		await new Promise((resolve) => setTimeout(resolve, 3000));
 		if (!locals.session) {
 			return fail(401, { message: 'Unauthorized', name: '' });
 		}
@@ -46,7 +47,7 @@ export const actions = {
 		} catch (error) {
 			// Report
 			console.log(error);
-			return fail(500, { message: 'An error has occurred!' });
+			return fail(500, { message: 'An error has occurred!', name });
 		}
 		redirect(303, `/w/${_newWorkspace.id}`);
 		// return { message: 'Workspace created successfully!' };
