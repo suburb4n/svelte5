@@ -12,6 +12,16 @@
 	);
 </script>
 
+<div class="card bg-base-200 prose border-base-300 w-full rounded-md border-1">
+	<div class="card-body">
+		<form method="POST" action="/new?/createWorkspace">
+			<label for="ws-name">Name</label>
+			<input id="ws-name" name="name" class="input bg-base-200 w-full rounded-md" type="text" />
+			<button class="btn btn-primary mt-4 w-full rounded-md" type="submit">Submit</button>
+		</form>
+	</div>
+</div>
+
 <div class="flex h-svh flex-col">
 	<div class="navbar bg-base-100 border-b-base-300 border-b-1 px-4 shadow-sm">
 		<div class="flex flex-1 items-center gap-4">
