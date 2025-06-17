@@ -13,7 +13,6 @@ export const load = (async ({ locals }) => {
 
 export const actions = {
 	createWorkspace: async ({ request, locals }) => {
-		await new Promise((resolve) => setTimeout(resolve, 3000));
 		if (!locals.session) {
 			return fail(401, { message: 'Unauthorized', name: '' });
 		}
