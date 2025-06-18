@@ -3,6 +3,7 @@
 	import { Settings, StickyNote, User } from '@lucide/svelte';
 
 	import { page } from '$app/state';
+	import FormMessage from '$components/FormMessage.svelte';
 
 	let { data, children }: LayoutProps = $props();
 </script>
@@ -59,6 +60,9 @@
 		</div>
 	</div>
 	<div class="prose max-h-full max-w-none flex-1 overflow-y-auto p-6">
+		{#if page.form?.message}
+			<FormMessage message={page.form?.message} />
+		{/if}
 		{@render children()}
 	</div>
 </div>
