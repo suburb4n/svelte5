@@ -17,7 +17,7 @@ export const load = (async ({ locals }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
-	createWorkspace: async ({ request, locals }) => {
+	default: async ({ request, locals }) => {
 		await new Promise((resolve) => setTimeout(resolve, 3000));
 		const form = await superValidate(request, zod(workspaceSchema));
 		if (!locals.session) {
