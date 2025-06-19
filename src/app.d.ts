@@ -2,6 +2,7 @@
 
 import type { users } from '$lib/server/db/schema';
 import type { PageData as AddWorkspaceData } from './routes/(app)/new/$types';
+import type { PageData as EditWorkspaceData } from './routes/(app)/(workspace)/w/[wid]/edit/$types';
 
 // for information about these interfaces
 declare global {
@@ -15,6 +16,7 @@ declare global {
 		// interface PageData {}
 		interface PageState {
 			addWorkspaceData?: AddWorkspaceData;
+			editWorkspaceData?: EditWorkspaceData;
 		}
 		// interface Platform {}
 	}

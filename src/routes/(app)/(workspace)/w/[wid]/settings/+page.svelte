@@ -2,6 +2,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { toast } from 'svelte-sonner';
 	import type { PageData } from './$types';
+	import { handlePopoverLink } from '$lib/utils';
 
 	let { data }: { data: PageData } = $props();
 
@@ -10,7 +11,9 @@
 
 <h3>Settings</h3>
 <!-- TODO: Check if user can update a workspace -->
-<a class="btn" href="/w/{data.workspace.id}/edit"> Edit Workspace</a>
+<a onclick={handlePopoverLink('editWorkspace')} class="btn" href="/w/{data.workspace.id}/edit">
+	Edit Workspace</a
+>
 
 <!-- TODO: Check if user can delete a workspace -->
 <form

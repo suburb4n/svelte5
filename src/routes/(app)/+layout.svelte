@@ -4,10 +4,8 @@
 	import { enhance } from '$app/forms';
 	import { ChevronDown, MoonIcon, NotebookPen, Plus, StickyNote, Sun } from '@lucide/svelte';
 	import { page } from '$app/state';
-	import { goto, preloadData, pushState } from '$app/navigation';
-	import AddWorkspace from './new/+page.svelte';
-	import type { PageData as AddWorkspaceData } from './new/$types';
-	import { fly } from 'svelte/transition';
+	import { handlePopoverLink } from '$lib/utils';
+	import PushStateModal from './PushStateModal.svelte';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
@@ -65,20 +63,7 @@
 							{/each}
 							<li>
 								<a
-									onclick={async (e) => {
-										if (e.shiftKey || e.metaKey || e.ctrlKey) return;
-										e.preventDefault();
-										(e.currentTarget.closest('[popover]') as HTMLElement)?.hidePopover();
-										const { href } = e.currentTarget;
-										const result = await preloadData(href);
-										if (result.type === 'loaded' && result.status === 200) {
-											pushState(href, {
-												addWorkspaceData: result.data as AddWorkspaceData
-											});
-										} else {
-											goto(href);
-										}
-									}}
+									onclick={handlePopoverLink('newWorkspace')}
 									href="/new"
 									class="btn btn-sm bg-base-300 mt-3 w-full rounded-md"
 								>
@@ -181,21 +166,4 @@
 	</div>
 </div>
 
-{#if page.state.addWorkspaceData}
-	<dialog
-		id="add-ws-modal"
-		class="modal modal-open transition-none"
-		transition:fly={{ duration: 200, y: -50 }}
-	>
-		<div class="modal-box bg-base-200 rounded-md">
-			<button
-				onclick={() => window.history.back()}
-				class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button
-			>
-			<h3 class="text-lg font-bold">Add a New Workspace</h3>
-			<div class="mt-4">
-				<AddWorkspace data={page.state.addWorkspaceData} form={null} />
-			</div>
-		</div>
-	</dialog>
-{/if}
+<PushStateModal />
