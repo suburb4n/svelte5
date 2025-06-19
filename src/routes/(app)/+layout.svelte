@@ -5,6 +5,9 @@
 	import { ChevronDown, MoonIcon, NotebookPen, Plus, StickyNote, Sun } from '@lucide/svelte';
 	import { page } from '$app/state';
 	import { goto, preloadData, pushState } from '$app/navigation';
+	import AddWorkspace from './new/+page.svelte';
+	import type { PageData as AddWorkspaceData } from './new/$types';
+	import { fly } from 'svelte/transition';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
@@ -70,7 +73,7 @@
 										const result = await preloadData(href);
 										if (result.type === 'loaded' && result.status === 200) {
 											pushState(href, {
-												addWorkspaceData: result.data
+												addWorkspaceData: result.data as AddWorkspaceData
 											});
 										} else {
 											goto(href);
@@ -179,11 +182,20 @@
 </div>
 
 {#if page.state.addWorkspaceData}
-	<div
-		style="height: 99px;
-    background: red;
-    position: absolute;
-    width: 100%;
-    top: 0;"
-	></div>
+	<dialog
+		id="add-ws-modal"
+		class="modal modal-open transition-none"
+		transition:fly={{ duration: 200, y: -50 }}
+	>
+		<div class="modal-box bg-base-200 rounded-md">
+			<button
+				onclick={() => window.history.back()}
+				class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button
+			>
+			<h3 class="text-lg font-bold">Add a New Workspace</h3>
+			<div class="mt-4">
+				<AddWorkspace data={page.state.addWorkspaceData} form={null} />
+			</div>
+		</div>
+	</dialog>
 {/if}
