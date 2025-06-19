@@ -1,6 +1,7 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
 import type { users } from '$lib/server/db/schema';
+import type { PageData as AddWorkspaceData } from './routes/(app)/new/$types';
 
 // for information about these interfaces
 declare global {
@@ -12,7 +13,9 @@ declare global {
 			session: { user: typeof users.$inferSelect; session: string };
 		}
 		// interface PageData {}
-		// interface PageState {}
+		interface PageState {
+			addWorkspaceData?: AddWorkspaceData;
+		}
 		// interface Platform {}
 	}
 }
