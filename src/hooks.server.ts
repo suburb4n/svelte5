@@ -1,5 +1,11 @@
 import { type Handle, type HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+import { svelteKitHandler } from 'better-auth/svelte-kit';
+import { auth } from '$lib/server/auth';
+
+const authHandle: Handle = async ({ event, resolve }) => {
+	return svelteKitHandler({ event, resolve, auth });
+};
 
 export const handle1: Handle = async ({ event, resolve }) => {
 	const response = await resolve(event, {
@@ -13,7 +19,7 @@ export const handle1: Handle = async ({ event, resolve }) => {
 	return response;
 };
 
-export const handle = sequence(handle1);
+export const handle = sequence(handle1, authHandle);
 
 export const handleError: HandleServerError = async ({ error, event, status, message }) => {
 	console.log(error, event, status, message);
