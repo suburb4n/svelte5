@@ -12,7 +12,7 @@ declare global {
 			code?: string;
 		}
 		interface Locals {
-			session: { user: User; session: Session };
+			session: { user: User; session: Session } | null;
 		}
 		// interface PageData {}
 		interface PageState {

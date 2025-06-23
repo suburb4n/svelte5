@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import { ChevronDown, MoonIcon, NotebookPen, Plus, StickyNote, Sun } from '@lucide/svelte';
 	import { page } from '$app/state';
 	import { handlePopoverLink } from '$lib/utils';
 	import PushStateModal from './PushStateModal.svelte';
+	import { toast } from 'svelte-sonner';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
@@ -149,7 +150,19 @@
 						</li>
 						<li><a class="rounded-md">Settings</a></li>
 					</ul>
-					<form method="POST" action="/app?/logout" use:enhance>
+					<form
+						method="POST"
+						action="/app?/logout"
+						use:enhance={() => {
+							return ({ result }) => {
+								if (result.type === 'failure') {
+									toast.error('An error has occurred');
+								} else {
+									applyAction(result);
+								}
+							};
+						}}
+					>
 						<button
 							class="btn btn-sm mt-2 w-full cursor-pointer rounded-md bg-red-700 text-white"
 							type="submit">Signout</button
