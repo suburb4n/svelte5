@@ -37,6 +37,29 @@ export const load = (async ({ locals }) => {
 }) satisfies PageServerLoad;
 
 export const actions = {
+	githubSignIn: async () => {
+		let ghRedirect;
+		try {
+			const res = await auth.api.signInSocial({
+				body: {
+					provider: 'github',
+					callbackURL: '/app'
+				}
+			});
+			ghRedirect = res.url;
+		} catch (error) {
+			console.log(error);
+			return fail(500, {
+				message: 'An error has occurred'
+			});
+		}
+		if (!ghRedirect) {
+			return fail(500, {
+				message: 'An error has occurred'
+			});
+		}
+		redirect(303, ghRedirect);
+	},
 	login: async ({ request, cookies }) => {
 		const form = await superValidate(request, zod(userLoginSchema));
 		if (!form.valid) {

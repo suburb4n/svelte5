@@ -5,11 +5,11 @@
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { userLoginSchema } from '$lib/schemas/login-schema';
 	import { userRegisterSchema } from '$lib/schemas/register-schema';
-	import { AtSign, Lock, NotebookPen, User } from '@lucide/svelte';
+	import { AtSign, Github, Lock, NotebookPen, User } from '@lucide/svelte';
 	import { Control, Field, FieldErrors } from 'formsnap';
 	import FormMessage from '$components/FormMessage.svelte';
 
-	let { data }: PageProps = $props();
+	let { data, form }: PageProps = $props();
 
 	const loginForm = superForm(data.loginForm, {
 		validators: zodClient(userLoginSchema)
@@ -47,8 +47,8 @@
 			</h2>
 			<p class="mb-0 text-sm">Please enter your details.</p>
 
-			{#if $loginFormMessage || $registerFormMessage}
-				<FormMessage message={$loginFormMessage || $registerFormMessage} />
+			{#if $loginFormMessage || $registerFormMessage || form?.message}
+				<FormMessage message={$loginFormMessage || $registerFormMessage || form?.message} />
 			{/if}
 
 			<div class="mt-4">
@@ -227,6 +227,11 @@
 					</p>
 					<p class="mt-0 mb-0">Don't have an account? <a href="/register">Sign up</a>.</p>
 				{/if}
+				<form method="POST" class="mt-4" action={'?/githubSignIn'}>
+					<button class="btn w-full rounded-md bg-black text-white" type="submit"
+						><Github size="18" /> Sign in with GitHub</button
+					>
+				</form>
 			</div>
 		</div>
 	</div>

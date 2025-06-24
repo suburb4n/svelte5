@@ -21,7 +21,7 @@ export const auth = betterAuth({
 		sendOnSignUp: true,
 		autoSignInAfterVerification: true,
 		sendVerificationEmail: async ({ user, url }) => {
-			const { data, error } = await resend.emails.send({
+			const { error } = await resend.emails.send({
 				// from: 'onboarding@resend.dev'
 				from: 'noreply@transactional.alialaa.dev',
 				to: user.email,
@@ -30,6 +30,17 @@ export const auth = betterAuth({
 			});
 			if (error) {
 				// report
+			}
+		}
+	},
+	socialProviders: {
+		github: {
+			clientId: env.GITHUB_CLIENT_ID,
+			clientSecret: env.GITHUB_CLIENT_SECRET,
+			mapProfileToUser: (profile) => {
+				return {
+					username: profile.login
+				};
 			}
 		}
 	},
