@@ -4,6 +4,8 @@ import { db } from '$lib/server/db';
 import { roles, workspaceAccess, workspaces } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
 import { requireLogin } from '$lib/utils';
+import defineAbilityFor from '$lib/ability';
+import { subject } from '@casl/ability';
 
 export const load = (async ({ params }) => {
 	// TODO: Page Auth
@@ -19,7 +21,11 @@ export const load = (async ({ params }) => {
 		.where(and(eq(workspaceAccess.workspaceId, params.wid), eq(workspaceAccess.userId, user.id)))
 		.limit(1);
 	console.log('wsAccess', wsAccess);
-	return {};
+	const ability = defineAbilityFor(user, wsAccess);
+	console.log(ability.can('update', subject('Workspace', { id: params.wid })));
+	return {
+		workspaceAccess: wsAccess
+	};
 }) satisfies PageServerLoad;
 
 export const actions = {

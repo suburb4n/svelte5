@@ -1,8 +1,12 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
 	import { StickyNote } from '@lucide/svelte';
+	import defineAbilityFor, { type Actions } from '$lib/ability';
+	import { subject } from '@casl/ability';
 
 	let { data }: PageProps = $props();
+
+	const ability = $derived(defineAbilityFor(data.user, data.workspaceAccess));
 </script>
 
 <h3>Pages</h3>
@@ -30,3 +34,10 @@
 		{/each}
 	</div>
 {/if}
+
+{#each ['read', 'update', 'delete'] as action}
+	<div>
+		{action}:
+		{ability.can(action as Actions, subject('Workspace', data.workspace)) ? 'YES' : 'NO'}
+	</div>
+{/each}
