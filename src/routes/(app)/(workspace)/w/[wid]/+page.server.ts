@@ -3,9 +3,11 @@ import type { PageServerLoad, Actions } from './$types';
 import { db } from '$lib/server/db';
 import { workspaces } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
+import { requireLogin } from '$lib/utils';
 
 export const load = (async () => {
 	// TODO: Page Auth
+	requireLogin();
 	return {};
 }) satisfies PageServerLoad;
 

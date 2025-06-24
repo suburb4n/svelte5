@@ -1,14 +1,12 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { auth } from '$lib/server/auth';
+import { requireLogin } from '$lib/utils';
 
-export const load = (async ({ locals }) => {
-	if (!locals.session) {
-		redirect(307, 'signin');
-	}
-	// console.log(locals.session);
-	// await parent();
-	// load page data
+export const load = (async () => {
+	const session = requireLogin();
+	console.log(session.user);
+
 	return {};
 }) satisfies PageServerLoad;
 
