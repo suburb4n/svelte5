@@ -1,6 +1,6 @@
 import { and, eq } from 'drizzle-orm';
 import { db } from '.';
-import { pages, roles, workspaceAccess } from './schema';
+import { pageAccess, pages, roles, workspaceAccess } from './schema';
 import type { User } from 'better-auth';
 import defineAbilityFor from '$lib/ability';
 
@@ -18,10 +18,12 @@ export const getWorkspaceIDFromPageID = async (pageId: string) => {
 
 export const getWorkspaceAccess = async ({
 	user,
-	workspaceId
+	workspaceId,
+	pageId
 }: {
 	user: User;
 	workspaceId: string;
+	pageId?: string;
 }) => {
 	const [wsAccess] = await db
 		.select({
@@ -34,8 +36,26 @@ export const getWorkspaceAccess = async ({
 		.where(and(eq(workspaceAccess.workspaceId, workspaceId), eq(workspaceAccess.userId, user.id)))
 		.limit(1);
 
+	let pAccess;
+
+	if (pageId) {
+		pAccess = (
+			await db
+				.select({
+					pageId: pageAccess.pageId,
+					role: roles.name,
+					roleId: roles.id
+				})
+				.from(pageAccess)
+				.innerJoin(roles, eq(pageAccess.roleId, roles.id))
+				.where(and(eq(pageAccess.pageId, pageId), eq(pageAccess.userId, user?.id)))
+				.limit(1)
+		)[0];
+	}
+
 	return {
 		workspaceAccess: wsAccess,
-		ability: defineAbilityFor(user, wsAccess)
+		pageAccess: pAccess,
+		ability: defineAbilityFor(user, wsAccess, pAccess)
 	};
 };
