@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { Edit, FilePlus2, Heart, MessagesSquare, Share, Sparkles } from '@lucide/svelte';
 	import type { PageProps } from './$types';
+	import defineAbilityFor from '$lib/ability';
+	import { subject } from '@casl/ability';
 
 	let { data }: PageProps = $props();
+
+	let ability = $derived(defineAbilityFor(data.user, data.workspaceAccess, data.pageAccess));
 </script>
 
 <div class="mb-10">
@@ -16,20 +20,23 @@
 			</div>
 		</div>
 		<div>
-			<!-- TODO: Check if user can update page -->
-			<a href="/p/{data.page.id}/edit" class="btn btn-outline btn-sm ms-4"
-				><Edit size="16" /> Edit</a
-			>
+			{#if ability.can('update', subject('Page', { id: data.page.id }))}
+				<a href="/p/{data.page.id}/edit" class="btn btn-outline btn-sm ms-4"
+					><Edit size="16" /> Edit</a
+				>
+			{/if}
 			<!-- TODO: Add delete page form -->
 		</div>
 	</div>
 	<div class="mt-6">
-		<!-- TODO: Check if user can update page -->
-		<a href="/p/{data.page.id}/note/new" class="btn btn-primary btn-sm me-1"
-			><FilePlus2 size="16" /> New Note</a
-		>
-		<!-- TODO: Check if user can manage page -->
-		<a href="" class="btn btn-primary btn-sm me-1"><Share size="16" /> Share</a>
+		{#if ability.can('update', subject('Page', { id: data.page.id }))}
+			<a href="/p/{data.page.id}/note/new" class="btn btn-primary btn-sm me-1"
+				><FilePlus2 size="16" /> New Note</a
+			>
+		{/if}
+		{#if ability.can('manage', subject('Page', { id: data.page.id }))}
+			<a href="" class="btn btn-primary btn-sm me-1"><Share size="16" /> Share</a>
+		{/if}
 		<a href="" class="btn btn-primary btn-sm me-1"><Sparkles size="16" /> Summarize</a>
 	</div>
 </div>
@@ -56,10 +63,11 @@
 						>
 					</div>
 					<div class="flex gap-3">
-						<!-- TODO: Check if user can update note -->
-						<a href="/p/{data.page.id}/note/{note.id}/edit" title="Edit" class="btn p-1"
-							><Edit size="16" /> <span class="sr-only">Edit</span>
-						</a>
+						{#if ability.can('update', subject('Note', note))}
+							<a href="/p/{data.page.id}/note/{note.id}/edit" title="Edit" class="btn p-1"
+								><Edit size="16" /> <span class="sr-only">Edit</span>
+							</a>
+						{/if}
 						<!-- TODO: Add delete note form -->
 					</div>
 				</div>

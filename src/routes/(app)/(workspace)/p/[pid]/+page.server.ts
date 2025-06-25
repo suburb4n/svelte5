@@ -2,9 +2,20 @@ import { db } from '$lib/server/db';
 import { notes, pages, users } from '$lib/server/db/schema';
 import { desc, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
+import { requireLogin } from '$lib/utils';
+import defineAbilityFor from '$lib/ability';
+import { subject } from '@casl/ability';
+import { redirect } from '@sveltejs/kit';
 
-export const load = (async ({ params }) => {
-	// TODO: Page Auth
+export const load = (async ({ params, parent }) => {
+	const { user } = requireLogin();
+
+	const { workspaceAccess, pageAccess } = await parent();
+	const ability = defineAbilityFor(user, workspaceAccess, pageAccess);
+
+	if (ability.cannot('read', subject('Page', { id: params.pid }))) {
+		redirect(307, '/access-denied');
+	}
 
 	async function getPage() {
 		const page = await db
