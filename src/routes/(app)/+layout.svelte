@@ -7,12 +7,16 @@
 	import { handlePopoverLink } from '$lib/utils';
 	import PushStateModal from './PushStateModal.svelte';
 	import { toast } from 'svelte-sonner';
+	import defineAbilityFor from '$lib/ability';
+	import { subject } from '@casl/ability';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
 	let selectedWorkspaceID = $derived(
 		page.route.id === '/(app)/(workspace)/w/[wid]' && page.params.wid
 	);
+
+	let ability = $derived(defineAbilityFor(data.user, page.data.workspaceAccess));
 </script>
 
 <div class="flex h-svh flex-col">
@@ -110,12 +114,13 @@
 							{/each}
 						</ul>
 					</li>
-					<!-- TODO: CHECK IF THE USER CAN CREATE A NEW PAGE -->
-					<li class="ms-2">
-						<a class="btn btn-md rounded-md bg-orange-600 px-2 font-normal text-black">
-							Create <Plus size="18" />
-						</a>
-					</li>
+					{#if page.data.workspaceId && ability.can('update', subject( 'Workspace', { id: page.data.workspaceId } ))}
+						<li class="ms-2">
+							<a class="btn btn-md rounded-md bg-orange-600 px-2 font-normal text-black">
+								Create <Plus size="18" />
+							</a>
+						</li>
+					{/if}
 				</ul>
 			</div>
 		</div>
