@@ -7,9 +7,18 @@ import { workspaces } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { error, redirect } from '@sveltejs/kit';
 import { fail, message } from 'sveltekit-superforms';
+import { requireLogin } from '$lib/utils';
+import { getWorkspaceAccess } from '$lib/server/db/utils';
+import { subject } from '@casl/ability';
 
 export const load = (async ({ params }) => {
-	// TODO: Auth: logged in and can update workspace
+	const { user } = requireLogin();
+	const { ability, workspaceAccess } = await getWorkspaceAccess({ user, workspaceId: params.wid });
+
+	if (ability.cannot('update', subject('Workspace', { id: params.wid }))) {
+		redirect(307, '/access-denied');
+	}
+
 	const workspace = await db
 		.select({ name: workspaces.name })
 		.from(workspaces)
@@ -18,7 +27,8 @@ export const load = (async ({ params }) => {
 		.then((r) => r[0]);
 	if (!workspace) error(404, 'Not found');
 	return {
-		form: await superValidate(workspace, zod(workspaceSchema))
+		form: await superValidate(workspace, zod(workspaceSchema)),
+		workspaceAccess
 	};
 }) satisfies PageServerLoad;
 
@@ -34,7 +44,13 @@ export const actions = {
 			return fail(400, { form });
 		}
 
-		// TODO: Auth: check if user can edit the workspace
+		const { ability } = await getWorkspaceAccess({
+			user: locals.session.user,
+			workspaceId: params.wid
+		});
+		if (ability.cannot('update', subject('Workspace', { id: params.wid }))) {
+			return message(form, 'Unauthorized', { status: 401 });
+		}
 
 		const { name } = form.data;
 

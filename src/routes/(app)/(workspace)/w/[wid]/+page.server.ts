@@ -26,7 +26,14 @@ export const actions = {
 			return fail(401, { message: 'Unauthorized' });
 		}
 
-		// TODO: Auth: check if user can delete ws
+		const { ability } = await getWorkspaceAccess({
+			user: locals.session.user,
+			workspaceId: params.wid
+		});
+
+		if (ability.cannot('delete', subject('Workspace', { id: params.wid }))) {
+			return fail(401, { message: 'Unauthorized' });
+		}
 
 		try {
 			const [deletedWorkspace] = await db
