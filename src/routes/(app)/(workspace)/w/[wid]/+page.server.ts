@@ -8,7 +8,6 @@ import { subject } from '@casl/ability';
 import { getWorkspaceAccess } from '$lib/server/db/utils';
 
 export const load = (async ({ params }) => {
-	// TODO: Page Auth
 	const { user } = requireLogin();
 
 	const { workspaceAccess, ability } = await getWorkspaceAccess({ user, workspaceId: params.wid });

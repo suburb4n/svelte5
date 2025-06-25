@@ -4,8 +4,7 @@ import { auth } from '$lib/server/auth';
 import { requireLogin } from '$lib/utils';
 
 export const load = (async () => {
-	const session = requireLogin();
-	console.log(session.user);
+	requireLogin();
 
 	return {};
 }) satisfies PageServerLoad;
