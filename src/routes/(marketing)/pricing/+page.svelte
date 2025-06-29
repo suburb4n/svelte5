@@ -20,7 +20,7 @@
 					{ name: 'Unlimited file attachments', included: false }
 				],
 				cta: 'Get Started',
-				ctaLink: '/auth/signup',
+				ctaLink: '',
 				popular: false
 			},
 			{
@@ -39,7 +39,7 @@
 					{ name: '5GB file attachments', included: true }
 				],
 				cta: 'Start Free Trial',
-				ctaLink: '/auth/signup?plan=pro',
+				ctaLink: '',
 				popular: true
 			},
 			{

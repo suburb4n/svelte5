@@ -3,11 +3,12 @@ import { env } from '$env/dynamic/private';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from './db';
 import { Resend } from 'resend';
-
-const resend = new Resend(env.RESEND_API_KEY);
+import { getRequestEvent } from '$app/server';
+import { redirect } from '@sveltejs/kit';
+import { building } from '$app/environment';
 
 export const auth = betterAuth({
-	baseURL: env.BETTER_AUTH_URL,
+	baseURL: building ? '' : env.BETTER_AUTH_URL,
 	basePath: '/api/auth',
 	emailAndPassword: {
 		enabled: true,
@@ -21,6 +22,7 @@ export const auth = betterAuth({
 		sendOnSignUp: true,
 		autoSignInAfterVerification: true,
 		sendVerificationEmail: async ({ user, url }) => {
+			const resend = new Resend(env.RESEND_API_KEY);
 			const { error } = await resend.emails.send({
 				// from: 'onboarding@resend.dev'
 				from: 'noreply@transactional.alialaa.dev',
@@ -35,8 +37,8 @@ export const auth = betterAuth({
 	},
 	socialProviders: {
 		github: {
-			clientId: env.GITHUB_CLIENT_ID,
-			clientSecret: env.GITHUB_CLIENT_SECRET,
+			clientId: building ? '' : env.GITHUB_CLIENT_ID,
+			clientSecret: building ? '' : env.GITHUB_CLIENT_SECRET,
 			mapProfileToUser: (profile) => {
 				return {
 					username: profile.login
@@ -62,3 +64,12 @@ export const auth = betterAuth({
 		}
 	}
 });
+
+export function requireLogin() {
+	const { locals, url } = getRequestEvent();
+	if (!locals.session) {
+		const redirectTo = url.pathname + url.search;
+		redirect(307, `/signin?${new URLSearchParams({ redirectTo })}`);
+	}
+	return locals.session;
+}

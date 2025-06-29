@@ -1,5 +1,5 @@
 import { getWorkspaceAccess } from '$lib/server/db/utils';
-import { requireLogin } from '$lib/utils';
+import { requireLogin } from '$lib/server/auth';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { subject } from '@casl/ability';

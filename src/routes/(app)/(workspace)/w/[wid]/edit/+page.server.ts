@@ -7,7 +7,7 @@ import { workspaces } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { error, redirect } from '@sveltejs/kit';
 import { fail, message } from 'sveltekit-superforms';
-import { requireLogin } from '$lib/utils';
+import { requireLogin } from '$lib/server/auth';
 import { getWorkspaceAccess } from '$lib/server/db/utils';
 import { subject } from '@casl/ability';
 

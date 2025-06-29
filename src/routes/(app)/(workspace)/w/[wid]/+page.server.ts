@@ -3,7 +3,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { db } from '$lib/server/db';
 import { workspaces } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
-import { requireLogin } from '$lib/utils';
+import { requireLogin } from '$lib/server/auth';
 import { subject } from '@casl/ability';
 import { getWorkspaceAccess } from '$lib/server/db/utils';
 

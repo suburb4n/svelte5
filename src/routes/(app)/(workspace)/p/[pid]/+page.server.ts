@@ -2,7 +2,7 @@ import { db } from '$lib/server/db';
 import { notes, pages, users } from '$lib/server/db/schema';
 import { desc, eq } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
-import { requireLogin } from '$lib/utils';
+import { requireLogin } from '$lib/server/auth';
 import defineAbilityFor from '$lib/ability';
 import { subject } from '@casl/ability';
 import { redirect } from '@sveltejs/kit';

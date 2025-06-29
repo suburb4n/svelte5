@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { auth } from '$lib/server/auth';
-import { requireLogin } from '$lib/utils';
+import { requireLogin } from '$lib/server/auth';
 
 export const load = (async () => {
 	requireLogin();

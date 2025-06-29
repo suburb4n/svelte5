@@ -1,4 +1,4 @@
-import { requireLogin } from '$lib/utils';
+import { requireLogin } from '$lib/server/auth';
 import type { PageServerLoad } from './$types';
 
 export const load = (async () => {

@@ -4,7 +4,7 @@ import type { LayoutServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { pageAccess, pages, workspaces } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
-import { requireLogin } from '$lib/utils';
+import { requireLogin } from '$lib/server/auth';
 import { subject } from '@casl/ability';
 
 export const load = (async ({ locals, route, params, untrack }) => {

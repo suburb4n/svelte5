@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 import { fail, message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { workspaceSchema } from '$lib/schemas/workspace-schema';
-import { requireLogin } from '$lib/utils';
+import { requireLogin } from '$lib/server/auth';
 
 export const load = (async () => {
 	requireLogin();
