@@ -10,6 +10,9 @@ import {
 import { and, desc, eq } from 'drizzle-orm';
 import type { LayoutServerLoad } from './$types';
 
+export const ssr = false;
+export const csr = true;
+
 export const load = (async ({ locals }) => {
 	if (locals.session) {
 		const workspacesPromise = db
