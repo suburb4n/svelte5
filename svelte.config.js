@@ -15,6 +15,10 @@ const config = {
 		alias: {
 			$components: 'src/lib/components/*'
 		}
+		// prerender: {
+		// 	crawl: false,
+		// 	entries: ['*', '/blog/1']
+		// }
 	}
 };
 
