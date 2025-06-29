@@ -2,19 +2,12 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { PostsResponse } from '$lib/types';
 import { POSTS_PER_PAGE } from '$lib/constants';
-import { env } from '$env/dynamic/private';
-import { TEST, FROM_DOT_ENV } from '$env/static/private';
 
-export const prerender = false;
+export const prerender = true;
 
-export const load = (async ({ fetch, url }) => {
-	console.log('TEST from $env/dynamic/private', env.TEST);
-	console.log('FROM_DOT_ENV from $env/dynamic/private', env.FROM_DOT_ENV);
-
-	console.log('TEST from $env/static/private', TEST);
-	console.log('FROM_DOT_ENV from $env/static/private', FROM_DOT_ENV);
-
-	const page = +(url.searchParams.get('page') || 1);
+export const load = (async ({ fetch }) => {
+	// const page = +(url.searchParams.get('page') || 1);
+	const page = 1;
 	const postsRes = await fetch(
 		`https://dummyjson.com/posts?limit=${POSTS_PER_PAGE}&skip=${(page - 1) * POSTS_PER_PAGE}`
 	);
