@@ -2,6 +2,8 @@
 	import { NotebookPen } from '@lucide/svelte';
 	import type { LayoutProps } from './$types';
 	import { page } from '$app/state';
+	import { onMount } from 'svelte';
+	import type { Session, User } from 'better-auth';
 
 	let { children, data }: LayoutProps = $props();
 
@@ -27,6 +29,13 @@
 			label: 'Pricing'
 		}
 	];
+
+	let session: { user: User; session: Session } | null = $state(null);
+	onMount(async () => {
+		const res = await fetch('/api/get-session');
+		const _session = await res.json();
+		session = _session;
+	});
 </script>
 
 <header class="bg-base-100 py-4">
@@ -51,7 +60,7 @@
 				{/each}
 
 				<li>
-					{#if data.user}
+					{#if session}
 						<a href="/app" class="btn rounded-md bg-orange-600 text-white">Dashboard</a>
 					{:else}
 						<a href="/signin" class="btn btn-primary rounded-md">Login</a>
