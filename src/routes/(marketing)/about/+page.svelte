@@ -51,6 +51,14 @@
 	};
 </script>
 
+<!-- 
+<svelte:head>
+	<title>NoteNow | About</title>
+	<meta property="og:title" content="NoteNow | About" />
+	<meta property="og:description" content="Some description" />
+	<meta name="description" content="Some description" />
+</svelte:head> -->
+
 <div class="container mx-auto px-4 py-8">
 	<section class="mb-16 text-center">
 		<h1 class="mb-3 text-4xl font-bold md:text-5xl">{appInfo.name}</h1>
