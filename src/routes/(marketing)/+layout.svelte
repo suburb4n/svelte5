@@ -52,9 +52,9 @@
 
 				<li>
 					{#if data.user}
-					<a href="/app" class="btn rounded-md bg-orange-600 text-white">Dashboard</a>
+						<a href="/app" class="btn rounded-md bg-orange-600 text-white">Dashboard</a>
 					{:else}
-					<a href="/signin" class="btn btn-primary rounded-md">Login</a>
+						<a href="/signin" class="btn btn-primary rounded-md">Login</a>
 					{/if}
 				</li>
 			</ul>
