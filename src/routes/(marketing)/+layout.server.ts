@@ -1,7 +1,9 @@
 import type { LayoutServerLoad } from './$types';
 
-export const load = (async () => {
+export const prerender = true;
+
+export const load = (async ({ locals }) => {
 	return {
-		marketingLayoutData: 'Some data'
+		user: locals.session?.user
 	};
 }) satisfies LayoutServerLoad;

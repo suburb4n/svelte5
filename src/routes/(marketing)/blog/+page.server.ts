@@ -1,14 +1,31 @@
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import type { PostsResponse } from '$lib/types';
+import { POSTS_PER_PAGE } from '$lib/constants';
+import { env } from '$env/dynamic/private';
+import { TEST, FROM_DOT_ENV } from '$env/static/private';
 
-export const load = (async ({ parent }) => {
-	// DO stuff that does not depend on parent
+export const prerender = false;
 
-	const parentData = await parent();
-	console.log(parentData);
-	console.log('🌍 Blog Route Server Load');
+export const load = (async ({ fetch, url }) => {
+	console.log('TEST from $env/dynamic/private', env.TEST);
+	console.log('FROM_DOT_ENV from $env/dynamic/private', env.FROM_DOT_ENV);
+
+	console.log('TEST from $env/static/private', TEST);
+	console.log('FROM_DOT_ENV from $env/static/private', FROM_DOT_ENV);
+
+	const page = +(url.searchParams.get('page') || 1);
+	const postsRes = await fetch(
+		`https://dummyjson.com/posts?limit=${POSTS_PER_PAGE}&skip=${(page - 1) * POSTS_PER_PAGE}`
+	);
+	if (!postsRes.ok) {
+		error(postsRes.status, 'An error has occurred!');
+	}
+	// console.log(postsRes);
 	return {
 		title: 'The Blog',
 		description: 'Our blog posts',
-		count: 10
+		posts: (await postsRes.json()) as PostsResponse,
+		postType: Math.random() > 0.5 ? 1 : 2
 	};
 }) satisfies PageServerLoad;
