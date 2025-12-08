@@ -51,7 +51,7 @@ export const actions = {
 			});
 		} catch (error) {
 			// Report
-			console.log(error);
+			console.error(error);
 			return message(form, 'An error has occurred!', { status: 500 });
 			// return fail(500, { message: 'An error has occurred!', name });
 		}

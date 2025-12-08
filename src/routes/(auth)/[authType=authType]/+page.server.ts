@@ -48,7 +48,7 @@ export const actions = {
 			});
 			ghRedirect = res.url;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return fail(500, {
 				message: 'An error has occurred'
 			});

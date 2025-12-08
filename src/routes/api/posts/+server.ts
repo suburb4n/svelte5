@@ -2,7 +2,6 @@ import { error, json, text } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ fetch, cookies }) => {
-	console.log(cookies.getAll());
 	const postsRes = await fetch('https://dummyjson.com/posts');
 	const postResJSON = await postsRes.json();
 	return json(postResJSON, { status: postsRes.status });

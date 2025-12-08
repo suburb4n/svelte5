@@ -28,7 +28,7 @@ export const handle1: Handle = async ({ event, resolve }) => {
 export const handle = sequence(handle1, authHandle);
 
 export const handleError: HandleServerError = async ({ error, event, status, message }) => {
-	console.log(error, event, status, message);
+	console.error(error, event, status, message);
 	// Report error and send event for extra context
 	// Sentry.captureException(error, {
 	// 	extra: { event, status }

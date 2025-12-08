@@ -9,7 +9,6 @@ import { subject } from '@casl/ability';
 
 export const load = (async ({ locals, route, params, untrack }) => {
 	const { user } = requireLogin();
-	console.log('(workspace) layout');
 	// TODO: Auth
 	const isPage = untrack(() => route.id).startsWith('/(app)/(workspace)/p/[pid]');
 	const workspaceId =

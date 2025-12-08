@@ -9,11 +9,6 @@ export const prerender = false;
 export const load = async ({ params, fetch, depends }) => {
 	// await parent();
 	depends('blog:single_page');
-	console.log('blog/[id] page load');
-
-	// if (Math.random() > 0.5) {
-	// 	error(500, 'Network error');
-	// }
 	async function fetchPost() {
 		const postRes = await fetch(`https://dummyjson.com/posts/${params.id}`);
 		if (postRes.status !== 200) {
