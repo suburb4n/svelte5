@@ -7,9 +7,7 @@ export const load = (async ({ params, untrack, fetch, depends }) => {
 		'blog/[id] layout load',
 		untrack(() => params.id)
 	);
-	const postReq = await fetch(
-		`https://dummyjson.com/${Math.random() > 0.5 ? 'posts' : 'wdfef'}?limit=3`
-	);
+	const postReq = await fetch(`https://dummyjson.com/posts?limit=3&skip=100`);
 	return {
 		morePosts: (postReq.ok ? await postReq.json() : { error: 'Something' }) as
 			| PostsResponse

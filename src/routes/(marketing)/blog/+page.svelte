@@ -8,7 +8,8 @@
 	let { data } = $props();
 
 	let posts = $derived(data.posts.posts);
-	let currentPage = $derived(+(page.url.searchParams.get('page') ?? 1));
+	// let currentPage = $derived(+(page.url.searchParams.get('page') ?? 1));
+	let currentPage = 1;
 	let isLoading = $state(false);
 	let firstLoadedPage = $derived(currentPage);
 	let lastLoadedPage = $derived(currentPage);
