@@ -8,7 +8,7 @@
 	BProgress.configure({ showSpinner: false });
 	let { children } = $props();
 
-	let loadingTimeout: number;
+	let loadingTimeout: ReturnType;
 
 	beforeNavigate(() => {
 		loadingTimeout = setTimeout(() => {
